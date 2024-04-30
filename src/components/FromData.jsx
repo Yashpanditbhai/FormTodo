@@ -1,16 +1,16 @@
 import { Fragment } from "react";
 import EditForm from "./editform";
 
-const FormData = ({ DataList, handleDelete, handleEdit, handleCancel }) => {
+const FormData = ({ DataList, handleDelete, handleEdit, handleCancel, handleSave }) => {
   return (
-    <div className="formoutput w-[100%] h-[100%]">
+    <div className=" relative formoutput w-[100%] h-[100%]">
       <h3 className="font-bold text-xl m-2">Here is your List:</h3>
       {DataList.length > 0 &&
         DataList.map((data, i) => {
           return (
             <Fragment key={i}>
               {data.isEdit && (
-                <EditForm data={data} key={i} handleCancel={handleCancel} />
+                <EditForm data={data} key={i} handleCancel={handleCancel} handleSave={handleSave}/>
               )}
               {!data.isEdit && (
                 <div

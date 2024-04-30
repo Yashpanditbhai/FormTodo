@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import FormData from "./FromData";
 
 const reducer = (state, action) => {
@@ -26,6 +26,12 @@ const reducer = (state, action) => {
 
     case "DELETE":
       return state.filter((data) => data.id != action.id);
+
+    case "RESET_EDIT":
+      return state.map((item) => ({
+        ...item,
+        isEdit: false,
+      }));
 
     default:
       return state;
@@ -58,35 +64,35 @@ const FormComponent = () => {
     e.preventDefault();
     dispatch({ type: "ADD", inputData: inputValues });
     setInputValues(intialInputValues);
-    console.log(inputValues);
+
+    // console.log(inputValues);
   };
 
   const handleDelete = (id) => {
     dispatch({ type: "DELETE", id: id });
   };
- 
+
   const handleEdit = (data) => {
     console.log(data);
-    const newData = {
+    const task = {
       ...data,
       isEdit: true,
     };
-    dispatch({ type: "manage", task: newData });
+    dispatch({ type: "manage", task });
   };
 
- const handleCancel = (data) =>{
-  const newData = {
-    ...data,
-    isEdit: false,
+  const handleSave = (task) => {
+    dispatch({ type: "manage", task });
   };
-  dispatch({ type: "manage", task: newData });
- };
 
+  const handleCancel = (task) => {
+    dispatch({ type: "manage", task });
+  };
 
   return (
     <div className="container flex flex-col justify-center items-center m-4">
-      <div className="forminput flex flex-col w-[60%] ">
-        <form className="flex flex-col">
+      <div className="  forminput flex flex-col w-[60%] ">
+        <form className="flex flex-col" onSubmit={handleClick}>
           <input
             className="m-1 bg-slate-200 p-1"
             type="text"
@@ -113,9 +119,7 @@ const FormComponent = () => {
             placeholder="Company"
           />
           <div className="text-center mt-3 p-1 bg-blue-700 text-white rounded-full">
-            <button type="submit" onClick={handleClick}>
-              ADD
-            </button>
+            <button type="submit">ADD</button>
           </div>
         </form>
       </div>
@@ -124,12 +128,10 @@ const FormComponent = () => {
         handleDelete={handleDelete}
         handleEdit={handleEdit}
         handleCancel={handleCancel}
+        handleSave={handleSave}
       />
     </div>
   );
 };
 
 export default FormComponent;
-
-
-

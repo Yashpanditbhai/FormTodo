@@ -29,3 +29,10 @@ const handleEdit = (index) => {
   setCompany(dataToEdit.company);
   setDataList((DataList) => DataList.filter((data, i) => i !== index));
 };
+
+
+case "RESET_EDIT":
+      return state.map((item) => ({
+        ...item,
+        isEdit: false,
+      }));
